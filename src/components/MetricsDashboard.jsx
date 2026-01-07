@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import fetchSonarMetrics from "src/services/sonar.js";
+import "./MetricsDashboard.css";
 
 const toTitle = (str) =>
   str
