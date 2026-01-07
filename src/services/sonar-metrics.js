@@ -1,7 +1,7 @@
-const API_URL = "http://localhost:8181/api/v1/sonar/metrics";
+const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
 async function fetchSonarMetrics(projectKey) {
-  const url = new URL(API_URL);
+  const url = new URL(`${apiUrl}/api/v1/sonar/metrics`);
     url.searchParams.append("projectKey", projectKey);
 
     const res = await fetch(url.toString());

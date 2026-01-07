@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
-import fetchSonarMetrics from "src/services/sonar.js";
+import fetchSonarMetrics from "src/services/sonar-metrics.js";
+import fetchSonarQualityGates from "src/services/sonar-quality-gates.js";
+import fetchProjects from "src/services/sonar-projects.js";
+import ProjectSelector from "./ProjectSelector.jsx";
 import "./MetricsDashboard.css";
 
 const toTitle = (str) =>
@@ -12,13 +15,24 @@ function MetricsDashboard() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [projectKey, setProjectKey] = useState();
+  const [projectStatus, setProjectStatus] = useState();
+  const [projects, setProjects] = useState([]);
 
-  const useFetchSonarMetrics = {fetchSonarMetrics};
+    const loadProjects = async () => {
+        const data = await fetchProjects();
+        setProjects(data);
+    }
+
+    useEffect(()=>{
+       loadProjects();
+      }, [])
 
     const loadMetrics = async () => {
       try {
           setLoading(true);
         const measures = await fetchSonarMetrics(projectKey);
+        const response = await fetchSonarQualityGates(projectKey);
+        setProjectStatus(response);
         setMetrics(measures);
         setError(false);
       } catch (err) {
@@ -28,29 +42,28 @@ function MetricsDashboard() {
       }
     };
 
-  return (
-    <div className="dashboard">
-      <h1>Metrics Dashboard</h1>
-      <div className="controls">
-      <input
-        type="text"
-        placeholder="Enter project key"
-        className="text-input"
-        value={projectKey}
-        onChange={(e) => setProjectKey(e.target.value)}
-      />
+    return (
+        <div className="dashboard">
+          <h1>Metrics Dashboard</h1>
+          <div className="controls">
+          <ProjectSelector projects={projects} onChange={setProjectKey} />
 
-      <button
-        className="primary-button"
-        onClick={() => loadMetrics()}
-        disabled={!projectKey}
-      >
-        Load Metrics
-      </button>
-    </div>
+          <button
+            className="primary-button"
+            onClick={() => loadMetrics()}
+            disabled={!projectKey}
+          >
+            Load Metrics
+          </button>
+        </div>
 
-      <div className="metrics-grid">
-          {loading && <p>Loading metrics...</p>}
+        {loading && <p>Loading metrics...</p>}
+
+        <div>
+         {!error && <p className="value">{projectStatus?.status}</p> }
+         </div>
+
+        <div className="metrics-grid">
 
         {!error ? metrics.map((m, index) => (
           <div className="metric-card" key={index}>
