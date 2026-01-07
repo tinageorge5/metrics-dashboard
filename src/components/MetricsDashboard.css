@@ -7,6 +7,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 16px;
+  margin: 16px 0 0 0;
 }
 
 .metric-card {
@@ -36,23 +37,6 @@
   display: flex;
   gap: 12px;
   margin-bottom: 32px;
-}
-
-.text-input {
-  padding: 10px 12px;
-  font-size: 14px;
-  border: 1px solid #d0d7de;
-  border-radius: 6px;
-  width: 260px;
-  outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  background: white;
-  color: #363737;
-}
-
-.text-input:focus {
-  border-color: #0969da;
-  box-shadow: 0 0 0 3px rgba(9, 105, 218, 0.15);
 }
 
 .primary-button {

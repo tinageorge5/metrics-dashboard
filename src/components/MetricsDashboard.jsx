@@ -60,8 +60,23 @@ function MetricsDashboard() {
         {loading && <p>Loading metrics...</p>}
 
         <div>
-         {!error && <p className="value">{projectStatus?.status}</p> }
+         {!error && <p className="value">Quality Gate:
+                       <span
+                         style={{ color: projectStatus?.status === "OK" ? "green" : "red" }}
+                       >{projectStatus?.status}</span>
+                       </p> }
          </div>
+
+          {projectStatus.conditions.map((c) => (
+                 <div key={c.metricKey}>
+                   <span
+                                            style={{ color: c.status === "ERROR" ? "red" : "green" }}
+                                          ><strong>{toTitle(c.metricKey)}</strong>: {c.actualValue}
+                   {" / "}
+                    {c.operator} {c.errorThreshold}
+                   </span>
+                 </div>
+               ))}
 
         <div className="metrics-grid">
 
