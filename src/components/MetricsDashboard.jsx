@@ -30,7 +30,7 @@ function MetricsDashboard() {
 
   return (
     <div className="dashboard">
-      <h1>Sonar Metrics Dashboard</h1>
+      <h1>Metrics Dashboard</h1>
       <div className="controls">
       <input
         type="text"
