@@ -60,14 +60,14 @@ function MetricsDashboard() {
         {loading && <p>Loading metrics...</p>}
 
         <div>
-         {!error && <p className="value">Quality Gate:
+         {!error && !!projectStatus && <p className="value">Quality Gate:
                        <span
-                         style={{ color: projectStatus?.status === "OK" ? "green" : "red" }}
-                       >{projectStatus?.status}</span>
+                         style={{ color: projectStatus.status === "OK" ? "green" : "red" }}
+                       >{projectStatus.status}</span>
                        </p> }
          </div>
 
-          {projectStatus.conditions.map((c) => (
+          {projectStatus?.conditions.map((c) => (
                  <div key={c.metricKey}>
                    <span
                                             style={{ color: c.status === "ERROR" ? "red" : "green" }}
