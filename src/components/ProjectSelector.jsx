@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 export default function ProjectSelector({ projects, onChange }) {
-  const [selectedKey, setSelectedKey] = useState("");
+  const [selectedKey, setSelectedKey] = useState('');
 
   const handleChange = (e) => {
     const key = e.target.value;

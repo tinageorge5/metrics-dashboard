@@ -1,5 +1,5 @@
-import MetricsDashboard from "./components/MetricsDashboard";
-import "./index.css";
+import MetricsDashboard from './components/MetricsDashboard';
+import './index.css';
 
 function App() {
   return <MetricsDashboard />;
