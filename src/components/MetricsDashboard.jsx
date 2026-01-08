@@ -52,27 +52,27 @@ function MetricsDashboard() {
 
       {loading && <p>Loading metrics...</p>}
 
-      <div>
-        {!error && !!projectStatus && (
-          <p className="value">
-            Quality Gate:
-            <span style={{ color: projectStatus.status === 'OK' ? 'green' : 'red' }}>
+      {!error && !!projectStatus && (
+        <div className="metrics-grid">
+          <div className="metric-card">
+            <h3>Lead Time:</h3>
+            <span style={{ color: 'blue' }}>10</span>
+          </div>
+          <div className="metric-card">
+            <h3>Cycle Time:</h3>
+            <span style={{ color: 'blue' }}>20</span>
+          </div>
+          <div className="metric-card">
+            <h3>Quality Gate:</h3>
+            <span style={{ color: projectStatus.status === 'ERROR' ? 'red' : 'green' }}>
               {projectStatus.status}
             </span>
-          </p>
-        )}
-      </div>
-
-      {projectStatus?.conditions.map((c) => (
-        <div key={c.metricKey}>
-          <span style={{ color: c.status === 'ERROR' ? 'red' : 'green' }}>
-            <strong>{toTitle(c.metricKey)}</strong>: {c.actualValue}
-            {' / '}
-            {c.operator} {c.errorThreshold}
-          </span>
+          </div>
         </div>
-      ))}
+      )}
+      <br />
 
+      {!loading && metrics.length !== 0 && <h2>Quality Signals</h2>}
       <div className="metrics-grid">
         {!error ? (
           metrics.map((m, index) => (
@@ -85,6 +85,20 @@ function MetricsDashboard() {
           <p style={{ color: 'red' }}>{error}</p>
         )}
       </div>
+
+      <br />
+
+      {projectStatus?.conditions
+        .filter((condition) => condition.status === 'ERROR')
+        .map((c) => (
+          <div key={c.metricKey}>
+            <span style={{ color: 'red' }}>
+              <strong>{toTitle(c.metricKey)}</strong>: {c.actualValue}
+              {' / '}
+              {c.operator} {c.errorThreshold}
+            </span>
+          </div>
+        ))}
     </div>
   );
 }
