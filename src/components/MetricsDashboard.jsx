@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import fetchSonarMetrics from 'src/services/sonar-metrics.js';
+import fetchJiraMetrics from 'src/services/jira-metrics.js';
 import fetchSonarQualityGates from 'src/services/sonar-quality-gates.js';
 import fetchProjects from 'src/services/sonar-projects.js';
 import ProjectSelector from './ProjectSelector.jsx';
@@ -14,6 +15,7 @@ function MetricsDashboard() {
   const [projectKey, setProjectKey] = useState();
   const [projectStatus, setProjectStatus] = useState();
   const [projects, setProjects] = useState([]);
+  const [jiraMetrics, setJiraMetrics] = useState({ leadTime: '', cycleTime: '' });
 
   const loadProjects = async () => {
     const data = await fetchProjects();
@@ -29,8 +31,10 @@ function MetricsDashboard() {
       setLoading(true);
       const measures = await fetchSonarMetrics(projectKey);
       const response = await fetchSonarQualityGates(projectKey);
+      const jiraResponse = await fetchJiraMetrics(projectKey);
       setProjectStatus(response);
       setMetrics(measures);
+      setJiraMetrics(jiraResponse);
       setError(false);
     } catch (err) {
       setError(err.message);
@@ -56,11 +60,11 @@ function MetricsDashboard() {
         <div className="metrics-grid">
           <div className="metric-card">
             <h3>Lead Time:</h3>
-            <span style={{ color: 'blue' }}>10</span>
+            <span style={{ color: 'blue' }}>{jiraMetrics.leadTime}</span>
           </div>
           <div className="metric-card">
             <h3>Cycle Time:</h3>
-            <span style={{ color: 'blue' }}>20</span>
+            <span style={{ color: 'blue' }}>{jiraMetrics.cycleTime}</span>
           </div>
           <div className="metric-card">
             <h3>Quality Gate:</h3>

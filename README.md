@@ -5,17 +5,26 @@ A simple React-based dashboard to visualize SonarQube and Jira metrics.
 ## Local Setup
 
 ### Clone the repository
+
 ```
 git clone <repository-url>
 cd metrics-dashboard
 ```
 
 ### Install dependencies
+
 ```
 npm install
 ```
 
+### Fix lint
+
+```
+npm run lint:fix
+```
+
 ### Start the development server
+
 ```
 npm run dev
 ```
